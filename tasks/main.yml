@@ -7,7 +7,7 @@
     key: https://packages.treasuredata.com/GPG-KEY-td-agent
   when: ansible_os_family == 'RedHat'
 
-- name: epel | setup dnf repository
+- name: fluentd | setup dnf repository
   become: true
   ansible.builtin.dnf:
     update_cache: true
@@ -50,6 +50,13 @@
     mode: 0644
   notify:
     - restart fluentd
+
+- name: fluentd | symlink
+  file:
+    path: "/usr/sbin/td-agent-gem"
+    src: "/opt/td-agent/usr/sbin/td-agent-gem"
+    force: true
+    state: link
 
 - name: fluentd | list plugins
   command: /usr/sbin/td-agent-gem list
