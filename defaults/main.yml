@@ -13,5 +13,5 @@ fluentd_env: {}
 # The Treasure Data stable fluentd package is called td-agent
 fluentd_name: td-agent
 
-# Time in seconds to wait for the yum process to free the lock file
-fluentd_yum_lock_timeout: 30
+# Time in seconds to wait for the dnf process to free the lock file
+fluentd_dnf_lock_timeout: 30

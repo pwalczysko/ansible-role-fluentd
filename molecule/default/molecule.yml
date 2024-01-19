@@ -8,10 +8,24 @@ lint: |
     ansible-lint
     flake8
 platforms:
-  - name: fluentd
-    image: centos/systemd
-    privileged: true
+  - name: rockylinux-9
+    image: eniocarboni/docker-rockylinux-systemd:9
     command: /sbin/init
+    privileged: true
+    cgroupns_mode: host
+    tmpfs:
+      - /sys/fs/cgroup
+    groups:
+      - extra_options
+  - name: ubuntu-2204
+    image: eniocarboni/docker-ubuntu-systemd:22.04
+    command: /sbin/init
+    privileged: true
+    cgroupns_mode: host
+    tmpfs:
+      - /sys/fs/cgroup
+    groups:
+      - extra_options
 provisioner:
   name: ansible
   lint:
@@ -22,7 +36,6 @@ provisioner:
         docker_storage_driver: vfs
         # Latest version 17.12.1.ce-1.el7.centos has a bug that prevents
         # testing on travis: https://github.com/docker/for-linux/issues/219
-        docker_version: 17.09.1.ce-1.el7.centos
 scenario:
   name: default
 verifier:

@@ -1,19 +1,19 @@
 ---
 # tasks file for roles/fluentd
 
-- name: fluentd | yum repo
+- name: fluentd | repo
   become: true
   copy:
-    src: yum-reposd-fluentd.repo
+    src: reposd-fluentd.repo
     dest: /etc/yum.repos.d/fluentd.repo
     mode: 0644
 
 - name: fluentd | install
   become: true
-  yum:
+  ansible.builtin.dnf:
     name: "{{ fluentd_name }}"
     state: present
-    lock_timeout: "{{ fluentd_yum_lock_timeout }}"
+    lock_timeout: "{{ fluentd_dnf_lock_timeout }}"
   notify:
     - restart fluentd
 
