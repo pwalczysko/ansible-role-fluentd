@@ -51,22 +51,15 @@
   notify:
     - restart fluentd
 
-- name: fluentd | symlink
-  file:
-    path: "/usr/sbin/td-agent-gem"
-    src: "/opt/td-agent/usr/sbin/td-agent-gem"
-    force: true
-    state: link
-
 - name: fluentd | list plugins
-  command: /usr/sbin/td-agent-gem list
+  command: /usr/sbin/fluentd list
   register: _fluent_plugins
   changed_when: false
   check_mode: false
 
 - name: fluentd | install fluentd plugins
   become: true
-  command: /usr/sbin/td-agent-gem install {{ item }}
+  command: /usr/sbin/fluentd install {{ item }}
   with_items: "{{ fluentd_plugins }}"
   when: item not in _fluent_plugins.stdout
   notify:
